@@ -97,3 +97,44 @@ películas-# ;
  Indiana Jones y el templo maldito
 (8 rows)
 
+-- Indicar cuantos actores distintos hay --
+películas=# SELECT COUNT (DISTINCT artist_name) FROM reparto;
+
+ count
+-------
+   831
+
+
+--Indicar las películas estrenadas entre los años 1990 y 1999 (ambos incluidos) ordenadas por
+--título de manera ascendente.
+
+películas=# SELECT movie FROM peliculas                                                                               
+WHERE release_year > 1989 AND release_year < 2000                                                                     
+ORDER BY movie  ASC;
+
+                   movie
+--------------------------------------------
+ American Beauty
+ American History X
+ Braveheart
+ Cadena perpetua
+ Eduardo Manostijeras
+ El Padrino. Parte III
+ El club de la pelea
+ El profesional
+ El sexto sentido
+ El show de Truman
+ El silencio de los corderos........etc
+
+ --Listar el reparto de las películas lanzadas el año 2001--
+SELECT artist_name FROM reparto
+INNER JOIN peliculas
+ON reparto.from_movie = peliculas.id
+WHERE release_year = 2001 ;
+
+-- Listar los actores de la película más nueva--
+SELECT artist_name FROM reparto                                                                           
+INNER JOIN peliculas                                                                                                  
+ON reparto.from_movie = peliculas.id                                                                                  
+WHERE release_year = (                                                                                                
+    SELECT MAX(release_year) FROM peliculas);
